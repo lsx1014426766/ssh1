@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans 
+           http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+           http://www.springframework.org/schema/context
+           http://www.springframework.org/schema/context/spring-context-3.1.xsd">
+    <!-- 
+    		配置数据源对象,通过数据源可以获取原始的Connection对象
+    		c3p0.jar中查找com.mchange.v2.c3p0的包
+    -->
+    <bean  id="myDataSource"   class="com.mchange.v2.c3p0.ComboPooledDataSource">
+    	<!-- <property name="driverClass"  value="oracle.jdbc.driver.OracleDriver"></property>
+    	<property name="jdbcUrl" value="jdbc:oracle:thin:@localhost:1521:orcl"></property>
+    	<property name="user"  value="scott"></property>
+    	<property name="password" value="tiger"></property> -->
+    	<!-- mysql連接 -->
+    	<property name="driverClass"  value="com.mysql.jdbc.Driver"></property>
+    	<property name="jdbcUrl" value="jdbc:mysql://localhost:3306/test"></property>
+    	<property name="user"  value="root"></property>
+    	<property name="password" value="root"></property>
+   		<!--连接池的最大连接数 -->
+		<property name="maxPoolSize" value="40"/>
+		<!--连接池的最小连接数 -->
+		<property name="minPoolSize" value="1"/>
+		<!--初始化连接数 -->
+		<property name="initialPoolSize" value="1"/>
+		<!--连接的最大空闲时间，超时的连接将被丢弃，单位：秒 -->
+		<property name="maxIdleTime" value="60"/>
+		<!--没有连接可用时，等待连接的时间，单位：毫秒 -->
+		<property name="checkoutTimeout" value="2000"/>
+    </bean>
+    <!-- 容器创建session对象 
+    	从org.springframework.orm-3.1.1.RELEASE.jar中查找
+    	org.springframework.orm.hibernate3包中
+    -->
+    <bean  id="sessionFactory"  
+    	class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
+    	<!-- 注入数据源对象 -->
+    	<property name="dataSource"  ref="myDataSource"></property>
+    	<!-- 配置hibernate中的属性配置 -->
+    	<property name="hibernateProperties">
+    		<props>
+    			<prop key="hibernate.dialect">org.hibernate.dialect.OracleDialect</prop>
+    			<prop key="hibernate.show_sql">true</prop>
+    			<prop key="hibernate.format_sql">true</prop>
+    		</props>
+    	</property>
+    	<!--引入实体映射文件  -->
+    	<property name="mappingResources">
+    		<list>
+    			<value>com/zrgk/mapping/Dept.hbm.xml</value>
+    			<value>com/zrgk/mapping/Emp.hbm.xml</value>
+    		</list>
+    	</property>
+    </bean>
+  
+    <bean  id="deptDao"  class="com.zrgk.dao.impl.DeptDaoImpl3">
+    	<property name="sf"  ref="sessionFactory"></property>
+    </bean>
+    
+    <bean id="deptService"  class="com.zrgk.service.impl.DeptServiceImpl" destroy-method="destroy"  init-method="init"  lazy-init="false">
+    	<property name="deptDao"  ref="deptDao"></property>
+    </bean>
+     	   
+</beans>
+     	   

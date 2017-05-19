@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans  xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans 
+           http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+           http://www.springframework.org/schema/context
+           http://www.springframework.org/schema/context/spring-context-3.1.xsd
+           http://www.springframework.org/schema/aop
+           http://www.springframework.org/schema/aop/spring-aop-3.1.xsd
+           http://www.springframework.org/schema/tx 
+     	   http://www.springframework.org/schema/tx/spring-tx-3.1.xsd"
+     	   default-lazy-init="false"
+     	   default-autowire="no"
+>
+
+ 	<!-- 
+ 	注意：这2个spring配置文件中service注入的对象不同，实现不同
+ 	    数据源的使用方式也不同，这个是导入方式，2为直接定义的方式
+ 	 -->
+   	<import resource="dataSource.xml"/>
+   	
+     <!--支持基于注解的配置方式，为@Autowired、@Resource、@PostConstruct、@PreDestroy注解提供支持 --> 	   
+    <context:annotation-config/>
+  	
+  	<!--支持annotation实现aop，并允许为没有实现接口的类实现切面  -->
+	<aop:aspectj-autoproxy proxy-target-class="true" />
+    
+    <!--配置事务管理类  -->
+	<bean id="txManager"
+		class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+	<!--设置事务属性  -->
+	<tx:advice id="txAdvice" transaction-manager="txManager">
+		<tx:attributes>
+		<!-- 那些方法 需要采用那种事务的策略   propagation:事务的策略，默认值是REQUIRED-->
+		
+			<!-- <tx:method name="*"/> --><!--所有方法均加入事务处理  -->	
+			<!-- 以add，delete等打头的方法必须要事务 -->
+			<tx:method name="add*"  propagation="REQUIRED"/>
+			<tx:method name="delete*"  propagation="REQUIRED"/>
+			<tx:method name="del*"  propagation="REQUIRED"/>
+			<tx:method name="remove*"  propagation="REQUIRED"/>
+			<tx:method name="insert*"  propagation="REQUIRED"/>
+			<tx:method name="save*"  propagation="REQUIRED"/>
+			<tx:method name="update*"  propagation="REQUIRED"/>
+			<tx:method name="modify*"  propagation="REQUIRED"/>
+			<!-- 以get,set打头的方法不需要事务 -->
+			<!-- <tx:method name="get*"/> --><!--最好不要这么配置，会导致属性的getter也加入事务处理  -->
+			<!--避免属性的getter加入事务处理,匹配多个tx:method的方法以后面这个为准  -->
+    		<!--避免属性的setter加入事务处理,匹配多个tx:method的方法以后面这个为准  -->		
+			<tx:method name="get*"  propagation="NEVER"/>
+			<tx:method name="set*"   propagation="NEVER"/>
+			<!-- 以find，search打头的方法采用只读事务 -->
+			<tx:method name="search*"  read-only="true"/>
+			<tx:method name="find*"  read-only="true"/>
+
+    		
+		</tx:attributes>
+	</tx:advice>
+		<!--设置切面  -->
+	<aop:config>
+		<aop:pointcut expression="execution(public * com.pb.service.impl..*(..))" id="service"/>
+		<aop:advisor advice-ref="txAdvice" pointcut-ref="service"/>
+	</aop:config>
+	
+	<!--为baseDaoImpl注入hibernateTemplate  -->
+	<bean id="baseDao" class="org.springframework.orm.hibernate3.BaseDaoImpl" abstract="true">
+		<property name="hibernateTemplate" ref="hibernateTemplate" />
+	</bean>
+	
+	<import resource="applicationContext-user.xml"/>
+	<import resource="applicationContext-house.xml"/>
+    
+    
+    
+    
+    <bean  id="hibernateTemplate"  class="org.springframework.orm.hibernate3.HibernateTemplate">
+    	<property name="sessionFactory"  ref="sessionFactory"></property>
+    </bean>
+    
+    <bean  id="deptDao"  class="com.zrgk.dao.impl.DeptDaoImpl2">
+    	<property name="hibernateTemplate"  ref="hibernateTemplate"></property>
+    </bean>
+    
+    <bean id="deptService"  class="com.zrgk.service.impl.DeptServiceImpl" destroy-method="destroy"  init-method="init"  lazy-init="false">
+    	<property name="deptDao"  ref="deptDao"></property>
+    </bean>
+    
+    <bean  id="addAction"  class="com.zrgk.action.AddAction">
+    	<property name="service"  ref="deptService"></property>
+    </bean>
+    <bean  id="listAction"   class="com.zrgk.action.ListAction">
+    	<property name="service" ref="deptService"></property>
+    </bean>
+     	   
+</beans>
+     	   

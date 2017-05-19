@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.zrgk.entity">
+    <class name="Dept" table="DEPT_MYC" schema="test">
+        <id name="deptno" type="integer">
+            <column name="DEPTNO"/>
+            <generator class="assigned" />
+        </id>
+        <property name="dname" type="string">
+            <column name="DNAME" />
+        </property>
+        
+         <property name="loc" type="string">
+            <column name="loc" />
+        </property>
+        
+        <set name="emps" inverse="true"  lazy="true"   fetch="select">
+            <key column="deptno">
+            </key>
+            <one-to-many class="Emp" />
+        </set>
+    </class>
+</hibernate-mapping>

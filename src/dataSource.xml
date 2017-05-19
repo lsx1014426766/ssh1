@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans 
+           http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+           http://www.springframework.org/schema/context
+           http://www.springframework.org/schema/context/spring-context-3.1.xsd">
+
+  
+   <!-- 指定db.properties属性文件的位置，加载进来
+   	从org.springframework.beans-3.1.1.RELEASE.jar的
+    org.springframework.beans.factory.config包中查找
+    -->
+    <!--properties配置文件加载  -->
+    
+    <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+	    <property name="location">
+	        <value>classpath:db.properties</value>
+	    </property>
+	</bean>
+	<!-- 如果是dbcp数据源，可以以这种方式加载属性文件 -->
+	<!-- <context:property-placeholder  location="classpath:db.properties"/> -->
+    <!-- 
+    		配置数据源对象,通过数据源可以获取原始的Connection对象
+    		c3p0.jar中查找com.mchange.v2.c3p0的包
+    -->
+    <bean  id="myDataSource"   class="com.mchange.v2.c3p0.ComboPooledDataSource">
+    	<property name="driverClass"  value="${driver}"></property>
+    	<property name="jdbcUrl" value="${url}"></property>
+    	<property name="user"  value="${username}"></property>
+    	<property name="password" value="${password}"></property>
+   		<!--连接池的最大连接数 -->
+		<property name="maxPoolSize" value="40"/>
+		<!--连接池的最小连接数 -->
+		<property name="minPoolSize" value="1"/>
+		<!--初始化连接数 -->
+		<property name="initialPoolSize" value="1"/>
+		<!--连接的最大空闲时间，超时的连接将被丢弃，单位：秒 -->
+		<property name="maxIdleTime" value="60"/>
+		<!--没有连接可用时，等待连接的时间，单位：毫秒 -->
+		<property name="checkoutTimeout" value="2000"/>
+    </bean>
+    <!-- 容器创建session对象 
+    	从org.springframework.orm-3.1.1.RELEASE.jar中查找
+    	org.springframework.orm.hibernate3包中
+    -->
+    <bean  id="sessionFactory"  
+    	class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
+    	<!-- 注入数据源对象 -->
+    	<property name="dataSource"  ref="myDataSource"></property>
+    	<!-- 配置hibernate中的属性配置 -->
+    	<property name="hibernateProperties">
+    		<props>
+    			<prop key="hibernate.dialect">org.hibernate.dialect.OracleDialect</prop>
+    			<prop key="hibernate.show_sql">true</prop>
+    			<prop key="hibernate.format_sql">true</prop>
+    			<prop key="hibernate.hbm2ddl.auto">update</prop>
+				<prop key="hibernate.generate_statistics">true</prop>
+				<prop key="hibernate.current_session_context_class">thread</prop>	
+				<prop key="hibernate.cache.use_second_level_cache">true</prop>
+				<prop key="hibernate.cache.provider_class">
+					org.hibernate.cache.EhCacheProvider
+				</prop>
+				<prop key="hibernate.cache.use_query_cache">true</prop>
+				<prop key="hibernate.connection.isolation">2</prop>
+    			
+    		</props>
+    	</property>
+    	<property name="packagesToScan">
+			<list>
+				<value>com.pb.entity</value>
+			</list>
+		</property>
+    	
+    	<!--引入实体映射文件  -->
+    	<property name="mappingResources">
+    		<list>
+    			<value>com/zrgk/mapping/Dept.hbm.xml</value>
+    			<value>com/zrgk/mapping/Emp.hbm.xml</value>
+    		</list>
+    	</property>
+    </bean>
+
+</beans>

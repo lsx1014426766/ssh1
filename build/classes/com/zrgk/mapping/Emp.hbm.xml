@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping  package="com.zrgk.entity">
+    <class name="Emp" table="EMP_MYC" schema="test">
+        <id name="empno" type="integer">
+            <column name="EMPNO"/>
+            <generator class="assigned" />
+        </id>
+       
+        <property name="ename" type="java.lang.String">
+            <column name="ENAME" length="10" />
+        </property>
+        <property name="job" type="java.lang.String">
+            <column name="JOB" length="10" />
+        </property>
+        <property name="salary" type="java.lang.Double">
+            <column name="SALARY" precision="7" />
+        </property>
+        <property name="bonus" type="java.lang.Double">
+            <column name="BONUS" precision="7" />
+        </property>
+        <property name="hiredate" type="java.util.Date">
+            <column name="HIREDATE" length="7" />
+        </property>
+        <property name="manager" type="integer">
+            <column name="MANAGER" />
+        </property>
+        
+         <many-to-one name="dept" 
+         			class="Dept" 
+         			fetch="select">
+            <column name="DEPTNO" />
+        </many-to-one>
+    </class>
+</hibernate-mapping>
