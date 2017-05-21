@@ -17,7 +17,11 @@ import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Check;
 import org.hibernate.annotations.GenericGenerator;
-
+/**
+ * 注意一些注解的使用
+ * @author lsx
+ *
+ */
 
 
 @Entity

@@ -10,9 +10,9 @@ import org.springframework.orm.hibernate3.HibernateTemplate;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 import com.zrgk.dao.IDeptDao;
 import com.zrgk.entity.Dept;
-//  HibernateDaoSupportÀà·â×°ÁË HibernateTmplateÀàµÄÊôĞÔ(hibernateTemplate) ºÍ¶ÔÓ¦µÄset·½·¨
+//  HibernateDaoSupportç±»å°è£…äº† HibernateTmplateç±»çš„å±æ€§(hibernateTemplate) å’Œå¯¹åº”çš„setæ–¹æ³•
 /**
- * ¼Ì³ĞHibernateDaoSupportµÄ·½Ê½
+ * ç»§æ‰¿HibernateDaoSupportçš„æ–¹å¼
  * @author lsx
  *
  */

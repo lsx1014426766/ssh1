@@ -104,6 +104,8 @@ public abstract class BaseDaoImpl<T>
 	
 	/**
 	 * 查询数据库中的所有对象
+	 * User is not mapped [from User]; nested exception 
+	 * is org.hibernate.hql.ast.QuerySyntaxException: User is not mapped [from User]
 	 */
 	public List<T> findAll(){
 		String hql = "from   "+this.entityClass.getSimpleName();

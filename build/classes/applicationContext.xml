@@ -62,9 +62,12 @@
     		
 		</tx:attributes>
 	</tx:advice>
-		<!--设置切面  -->
+		<!--设置切面 
+		注意此处的切点表达式
+		 -->
 	<aop:config>
-		<aop:pointcut expression="execution(public * com.pb.service.impl..*(..))" id="service"/>
+		<aop:pointcut expression="execution(public * com..service.impl..*(..))" id="service"/>
+		
 		<aop:advisor advice-ref="txAdvice" pointcut-ref="service"/>
 	</aop:config>
 	

@@ -17,8 +17,8 @@ public class TestSpringHibernate2 {
 		IDeptService service = (IDeptService)ac.getBean("deptService");
 		Dept d = new  Dept();
 		d.setDeptno(69);
-		d.setDname("ÎÄÒÕ4²¿");
-		d.setLoc("±±¾©");
+		d.setDname("æ–‡è‰º4éƒ¨");
+		d.setLoc("åŒ—äº¬");
 		service.addDept(d);
 	}
 

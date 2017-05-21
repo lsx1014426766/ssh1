@@ -11,8 +11,8 @@ import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 import com.zrgk.dao.IDeptDao;
 import com.zrgk.entity.Dept;
 /**
- * 3Ö±½ÓÊ¹ÓÃsessionFactory¹¤³§·½Ê½
- * ×îÔ­Ê¼µÄ·½Ê½
+ * 3ç›´æ¥ä½¿ç”¨sessionFactoryå·¥å‚æ–¹å¼
+ * æœ€åŸå§‹çš„æ–¹å¼
  * @author lsx
  *
  */

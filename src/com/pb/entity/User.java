@@ -11,7 +11,12 @@ import javax.persistence.Table;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.GenericGenerator;
-
+/**
+ * 如何通过实体类注解--->生成表
+ * 不是通过hibernate映射文件的形式
+ * @author lsx
+ *
+ */
 @Entity
 @Table(name="users")
 @Cache(usage=CacheConcurrencyStrategy.READ_WRITE)

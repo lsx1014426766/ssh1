@@ -17,29 +17,6 @@
      	   default-autowire="no"
      	   >
  
- 	<!--所有dao对象，注意dao需要继承baseDao  -->
-	<bean id="groupDao" class="com.pb.dao.impl.GroupDaoImpl" parent="baseDao"></bean>
-
-	<bean id="userDao" class="com.pb.dao.impl.UserDaoImpl" parent="baseDao"></bean>
-	
-	<!--所有service对象，注意service需要注入dao  -->
-	<bean id="groupService" class="com.pb.service.impl.GroupServiceImpl">
-		<property name="groupDao" ref="groupDao" />
-	</bean>
-	<bean id="userService" class="com.pb.service.impl.UserServiceImpl">
-		<property name="userDao" ref="userDao" />
-		<property name="groupDao" ref="groupDao" />
-	</bean>
-	
-	<!--所有action对象，注意action需要注入service  -->
-	<bean id="groupAction" class="com.pb.action.GroupAction" scope="prototype">
-		<property name="groupService" ref="groupService"></property>
-	</bean>
-	<!-- 多例模式 -->
-	<bean id="userAction" class="com.pb.action.UserAction" scope="prototype">
-		<property name="userService" ref="userService"></property>
-		<property name="groupService" ref="groupService"></property>
-	</bean>
 </beans>
 
 

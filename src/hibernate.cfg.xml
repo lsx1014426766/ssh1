@@ -44,8 +44,18 @@
 		<!-- 可以通过实体类以及映射文件生成对应的表结构 -->
 		<!-- <property name="hibernate.hbm2ddl.auto">update</property> -->
 		
-		
+		<!--
+		这里是通过xml文件建立起了和pojo和table的关系
+		  -->
 		<mapping resource="com/zrgk/mapping/Emp.hbm.xml" />
 		<mapping resource="com/zrgk/mapping/Dept.hbm.xml" />
+		<!-- 
+		方式二，跳过xml这个配置文件，直接在class pojo类上加上注解，直接和table做关联
+		这2种方式都可以，然后统一通过exportdb这个工具类反向生成对应的table
+		
+		尝试使用XML和Annotation两种方式进行POJO类的映射
+		 -->
+		<mapping class="com.pb.entity.Group" />
+		<mapping class="com.pb.entity.User" />
 	</session-factory>
 </hibernate-configuration>

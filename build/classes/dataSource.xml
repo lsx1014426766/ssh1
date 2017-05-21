@@ -45,15 +45,22 @@
     <!-- 容器创建session对象 
     	从org.springframework.orm-3.1.1.RELEASE.jar中查找
     	org.springframework.orm.hibernate3包中
+    	.NotWritablePropertyException: Invalid property 'packagesToScan' of bean class [org.springframework.orm.hibernate3.LocalSessionFactoryBean]: Bean property 'packagesToScan' is not writable or has an invalid setter method. Does the parameter type of the setter match the return type of the getter? 
+    	class="org.springframework.orm.hibernate3.LocalSessionFactoryBean"
+    	切换成 class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean"
     -->
+   
     <bean  id="sessionFactory"  
-    	class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
+    	class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
     	<!-- 注入数据源对象 -->
     	<property name="dataSource"  ref="myDataSource"></property>
     	<!-- 配置hibernate中的属性配置 -->
     	<property name="hibernateProperties">
     		<props>
-    			<prop key="hibernate.dialect">org.hibernate.dialect.OracleDialect</prop>
+    			<!-- 
+    			这里方言如果配成了Oracle，报错test.user_sequences找不到
+    			<prop key="hibernate.dialect">org.hibernate.dialect.OracleDialect</prop> -->
+    			<prop key="hibernate.dialect">org.hibernate.dialect.MySQL5Dialect</prop>
     			<prop key="hibernate.show_sql">true</prop>
     			<prop key="hibernate.format_sql">true</prop>
     			<prop key="hibernate.hbm2ddl.auto">update</prop>
@@ -68,6 +75,11 @@
     			
     		</props>
     	</property>
+    	<!-- 
+    	 org.springframework.beans.NotWritablePropertyException: Invalid property 'packagesToScan' of bean class [org.springframework.orm.hibernate3.LocalSessionFactoryBean]: Bean property 'packagesToScan' is not writable or has an invalid setter method. Does the parameter type of the setter match the return type of the getter?
+    	 改掉sessionFactory实现基类class
+    	 这个属性用来处理通过注解形式的pojo类
+    	 -->
     	<property name="packagesToScan">
 			<list>
 				<value>com.pb.entity</value>

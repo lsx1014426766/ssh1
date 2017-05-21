@@ -1,20 +1,15 @@
 package com.pb.listener;
 
-import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.regex.Pattern;
 
-import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ApplicationObjectSupport;
 import org.springframework.orm.hibernate3.BaseDaoImpl;
-import org.springframework.web.context.ContextLoaderListener;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
@@ -50,6 +45,7 @@ public class SpringContextLoaderListener implements ServletContextListener {
 				servieceBeans.put(entry.getKey(), entry.getValue());
 			}
 		}
+		System.out.println("servieceBeans="+servieceBeans);
 		System.out.println("所有bean打印完毕");
 		Map<String, BaseDaoImpl> daoBeans = springContext.getBeansOfType(BaseDaoImpl.class);
 		

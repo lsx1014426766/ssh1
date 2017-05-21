@@ -7,7 +7,7 @@ import org.springframework.orm.hibernate3.HibernateTemplate;
 import com.zrgk.dao.IDeptDao;
 import com.zrgk.entity.Dept;
 /**
- * Ö±½Ó×¢ÈëHibernateTemplateµÄ·½Ê½
+ * ç›´æ¥æ³¨å…¥HibernateTemplateçš„æ–¹å¼
  * @author lsx
  *
  */
@@ -18,7 +18,7 @@ public class DeptDaoImpl implements IDeptDao{
 		template.save(dept);
 	}
 /**
- * ×¢Èë•rÊ¹ÓÃset·½·¨
+ * æ³¨å…¥æ™‚ä½¿ç”¨setæ–¹æ³•
  * @param template
  */
 	public void setTemplate(HibernateTemplate template) {

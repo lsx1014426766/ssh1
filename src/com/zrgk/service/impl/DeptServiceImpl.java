@@ -12,8 +12,9 @@ public class DeptServiceImpl implements IDeptService {
 	
 	@Override
 	public void addDept(Dept d) {
+		//è¿™é‡Œçš„äº‹åŠ¡æ—¶é€šè¿‡sping aopåˆ‡é¢å®ç°çš„
 		deptDao.insertDept(d);
-		//Ä£Äâ´íÎó
+		//æ¨¡æ‹Ÿé”™è¯¯
 //		String s = null;
 //		s.length();
 //		Dept dept = new Dept();
@@ -29,11 +30,11 @@ public class DeptServiceImpl implements IDeptService {
 	}
 	
 	public void init(){
-		System.out.println("DeptServiceImpl³õÊ¼»¯¡£¡£¡£¡£¡£¡£");
+		System.out.println("DeptServiceImplåˆå§‹åŒ–ã€‚ã€‚ã€‚ã€‚ã€‚ã€‚");
 	}
 	
 	public  void destroy(){
-		System.out.println("DeptServiceImpl±»Ïú»Ù¡£¡£¡£¡£¡£¡£");
+		System.out.println("DeptServiceImplè¢«é”€æ¯ã€‚ã€‚ã€‚ã€‚ã€‚ã€‚");
 	}
 
 	@Override

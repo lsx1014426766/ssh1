@@ -10,17 +10,25 @@
     <constant name="struts.objectFactory.spring.autoWire" value="no" />
    
   	<package name="ssh"  extends="struts-default">
-  		<!-- 将spring容器创建好的action对象直接拿过来使用就可以 -->
-  		<action  name="add"  class="addAction" >
-  			<result  type="redirectAction">list</result>
-  		</action>	
+  		<!-- 将spring容器创建好的action对象直接拿过来使用就可以
+  		http://localhost:8080/ssh1/gotoAllUsers
+  		User is not mapped [from User]
+  		错误原因：pojo-》table的映射，需要将pojo配置扫描sessionFactory里注入扫描
+  		 -->
+  			
   		<action name="gotoAllUsers" class="userAction" method="gotoAllUsers">
     		<result name="success">/allUsers.jsp</result>
     	</action>
   		
-  		
+  		<!-- 
+  		获取所有部门列表
+  		http://localhost:8080/ssh1/list
+  		 -->
   		<action  name="list"  class="listAction" method="execute" >
   			<result>/list.jsp</result>
   		</action>	
+  		<action  name="add"  class="addAction" >
+  			<result  type="redirectAction">list</result>
+  		</action>
   	</package>  
   </struts>
